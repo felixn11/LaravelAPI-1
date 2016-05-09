@@ -67,6 +67,10 @@ class ApiController extends Controller{
      */
     public function respond($data, $headers = [])
     {
+
+        \Log::info('This is some useful information.');
+        \Log::info($data);
+        \Log::info($headers);
         return response()->json($data, $this->getStatusCode(), $headers);
     }
 }

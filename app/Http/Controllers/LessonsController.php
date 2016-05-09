@@ -37,7 +37,7 @@ class LessonsController extends ApiController {
 
         return $this->respond([
             'data' => $this->lessonTransformer->transformCollection($lessons->toArray())
-        ], 200);
+        ]);
 
     }
 

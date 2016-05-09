@@ -17,6 +17,13 @@ class AuthenticateController extends Controller
 {
     use Helpers;
 
+    protected $auth;
+
+    public function __construct(JWTAuth $auth)
+    {
+        $this->auth = $auth;
+    }
+
     public function login(Request $request){
         $credentials = $request->only(['email', 'password']);
         $this->validateLoginCredentials($credentials);
