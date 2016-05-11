@@ -24,7 +24,7 @@ If you are not registered yet use the /auth/signup route and provide a name, ema
 After signup the login route is called with the new credentials. The login route will return a JWT-token. This JWT-token needs to be used to do a call to the 
 JWT protected routes. In Postman you can do a GET request to the route api/v1/lessons, use the received token from the previous step as header with name "token". 
 
-##Sidenote 
+## Sidenote 
 The project AngularJS-frontend is in development and can be used to test the API. This is still a proof of concept of an AngularJS Single Page Application which later 
 can be used as input for the new Content Management System of Not On Paper.
 
