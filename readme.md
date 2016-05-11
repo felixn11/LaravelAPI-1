@@ -18,7 +18,7 @@ php artisan db:seed
 ## Step 3 - Configure API
 Go to LaravelAPI\Config\api.php and change the default domain to use for the API routes
 
-## Step 3 - Test calls
+## Step 4 - Test calls
 First make sure you are logged in by using the route auth/login providing an email and password in the body of the POST-call (can use Postman to test this).
 If you are not registered yet use the /auth/signup route and provide a name, email and password in the body of the POST-call. 
 After signup the login route is called with the new credentials. The login route will return a JWT-token. This JWT-token needs to be used to do a call to the 
