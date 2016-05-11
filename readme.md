@@ -8,11 +8,11 @@ Make sure to link the virtualhost to the public Laravel folder.
 Create an empty database called "api" in PHPMyAdmin
 
 ## Step 2 - Install
-Change directory to the project folder and install the project by running the following command in a command line tool:
+Change directory to the project folder and install the project by running the following command in a command line tool:<br />
 composer install
 
-Create the tables and setup data by running:
-composer install and
+Create the tables and setup data by running:<br />
+composer install <br />
 php artisan db:seed
 
 ## Step 3 - Configure API
