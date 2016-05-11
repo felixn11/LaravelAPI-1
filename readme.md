@@ -1,4 +1,4 @@
-# Laravel Backend-API - Example XAMPP local setup
+# Laravel Backend-API
 
 ## Step 1 - Setup XAMPP
 Setup your XAMPP environment by placing this project in the XAMPP htdocs folder. Please make use of virtualhosts:
