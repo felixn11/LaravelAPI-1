@@ -12,7 +12,7 @@ Change directory to the project folder and install the project by running the fo
 composer install
 
 Create the tables and setup data by running:<br />
-composer install <br />
+php artisan migrate <br />
 php artisan db:seed
 
 ## Step 3 - Configure API
