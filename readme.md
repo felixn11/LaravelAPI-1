@@ -26,6 +26,6 @@ JWT protected routes. In Postman you can do a GET request to the route api/v1/le
 
 ## Sidenote 
 The project AngularJS-frontend is in development and can be used to test the API. This is still a proof of concept of an AngularJS Single Page Application which later 
-can be used as input for the new Content Management System of Not On Paper.
+can be used as input for the new Content Management System of Not On Paper. See git@gitlab.notonpaper.nl:nopfno/angularjs-frontend.git
 
 
