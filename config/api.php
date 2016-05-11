@@ -69,7 +69,7 @@ return [
     |
     */
 
-    'domain' => env('API_DOMAIN', 'cms.nop'),
+    'domain' => env('API_DOMAIN', 'backend'),
 
     /*
     |--------------------------------------------------------------------------

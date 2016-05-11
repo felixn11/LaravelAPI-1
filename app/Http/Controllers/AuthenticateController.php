@@ -12,6 +12,7 @@ use Config;
 
 /**
  * Class AuthenticateController
+ * @Resource('auth')
  */
 class AuthenticateController extends Controller
 {
@@ -24,6 +25,13 @@ class AuthenticateController extends Controller
         $this->auth = $auth;
     }
 
+    /**
+     * Login a user
+     *
+     * Get a JSON representation of all the registered users.
+     * Returns a JSON web token
+     * @Post("/auth/login")
+     */
     public function login(Request $request){
         $credentials = $request->only(['email', 'password']);
         $this->validateLoginCredentials($credentials);
