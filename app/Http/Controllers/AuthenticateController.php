@@ -12,7 +12,7 @@ use Config;
 
 /**
  * Class AuthenticateController
- * @Resource('auth')
+ * @Resource("Authenticate", uri="/auth")
  */
 class AuthenticateController extends Controller
 {
@@ -28,12 +28,19 @@ class AuthenticateController extends Controller
     /**
      * Login a user
      *
-     * Get a JSON representation of all the registered users.
-     * Returns a JSON web token
-     * @Post("/auth/login")
+     * Returns a JSON web token. Use this token to make calls to the different endpoints
+     *
+     * @Post("/login")
+     * @Versions({"v1"})
+     * @Request(headers={"email": "felixn@live.nl", "password" : "snamreton"})
+     * @Response(200, headers={"token": "FooBar"})
      */
     public function login(Request $request){
-        $credentials = $request->only(['email', 'password']);
+        $email = \Request::header('email');
+        $password = \Request::header('password');
+        $credentials = array('email'=> $email, 'password'=> $password);
+
+        //$credentials = $request->only(['email', 'password']);
         $this->validateLoginCredentials($credentials);
         try {
             if (! $token = JWTAuth::attempt($credentials)) {
@@ -55,6 +62,7 @@ class AuthenticateController extends Controller
             throw new ValidationHttpException($validator->errors()->all());
         }
     }
+
 
     public function signup(Request $request){
         $userData = $request->only(Config::get('authconf.signup_fields'));

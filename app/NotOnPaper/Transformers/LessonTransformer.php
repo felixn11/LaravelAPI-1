@@ -8,6 +8,12 @@ class LessonTransformer extends Transformer {
         return [
             'title' => $lesson['title'],
             'body'  => $lesson['body'],
+            'links' => [
+                [
+                    'rel' => 'self',
+                    'uri' => '/lessons/' . $lesson['id'],
+                ],
+            ]
         ];
     }
 }
