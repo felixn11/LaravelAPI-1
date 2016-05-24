@@ -3,17 +3,21 @@
 namespace App\Http\Controllers;
 
 use App\Lesson;
-use App\Http\Requests;
-use Illuminate\Support\Facades\Response;
+use Dingo\Api\Routing\Helpers;
+use Illuminate\Routing\Controller;
+use Dingo\Api\Http\Request;
+use League\Fractal\Resource\Collection;
 use NotOnPaper\Transformers\LessonTransformer;
+use League\Fractal\Pagination\IlluminatePaginatorAdapter;
 
 
 /**
  * Class LessonsController
  * @package App\Http\Controllers
  */
-class LessonsController extends ApiController {
+class LessonsController extends Controller {
 
+    use Helpers;
     /**
      * @var LessonTransformer
      */
@@ -35,21 +39,24 @@ class LessonsController extends ApiController {
      *
      * @Get("/api/v1/lessons")
      * @Versions({"v1"})
-     * @Request("Authorization = Bearer eyxxxxx", contentType="application/json")
+     * @Request(headers={"Authorization": "Bearer TOKEN_HERE", "paginate": ""}),
      * @Respond(200, body={"id": 10, "title": "bar", "body": "foo"})
      */
     public function index()
     {
-        $lessons = Lesson::all();
+        $paginate = \Request::header('paginate');
+        if($paginate)
+        {
+            $lessons = Lesson::paginate($paginate);
+            return $this->response->withPaginator($lessons, new LessonTransformer());
+        }
 
+        $lessons = Lesson::all();
         if (!$lessons)
         {
-            return $this->respondNotFound('No lessons found');
+            return $this->response->errorNotFound('No lessons found');
         }
-        return $this->respond([
-            'data' => $this->lessonTransformer->transformCollection($lessons->toArray())
-        ]);
-
+        return $this->response->collection($lessons, new LessonTransformer());
     }
 
     /**
@@ -59,19 +66,16 @@ class LessonsController extends ApiController {
      *
      * @Get("/api/v1/lessons/{id}")
      * @Versions({"v1"})
-     * @Request("Authorization = Bearer eyxxxxx", contentType="application/json")
+     * @Request(headers={"Authorization": "Bearer eyxxxxx", "contentType":"application/json"})
+     * @Respond(200, body={"id": 10, "title": "bar", "body": "foo"})
      */
     public function show($id){
         $lesson = Lesson::find($id);
-
         if (!$lesson)
         {
-            return $this->respondNotFound('Lesson does not exist');
+            return $this->response->errorNotFound('Lesson does not exist');
         }
-
-        return $this->respond([
-            'data' => $this->lessonTransformer->transform($lesson)
-        ]);
+        return $this->response->item($lesson, new LessonTransformer());
     }
 
     /**
@@ -86,6 +90,7 @@ class LessonsController extends ApiController {
      *
      */
     public function store(){
+        /*
        if ( ! Input::get('title') or ! Input::get('body'))
        {
            return $this->setStatusCode(422)
@@ -94,7 +99,7 @@ class LessonsController extends ApiController {
 
        return $this->setStatusCode(201)->respond([
            'message' => 'Lesson successfully created.'
-       ]);
+       ]);*/
     }
 
     /**

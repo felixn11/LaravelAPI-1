@@ -1,7 +1,9 @@
 <?php
 namespace NotOnPaper\Transformers;
 
-class LessonTransformer extends Transformer {
+use League\Fractal\TransformerAbstract;
+
+class LessonTransformer extends TransformerAbstract {
 
     public function transform($lesson)
     {

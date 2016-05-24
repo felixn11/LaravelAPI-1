@@ -14,8 +14,8 @@ use Config;
  * Class AuthenticateController
  * @Resource("Authenticate", uri="/auth")
  */
-class AuthenticateController extends Controller
-{
+class AuthenticateController extends Controller{
+
     use Helpers;
 
     protected $auth;
@@ -32,7 +32,7 @@ class AuthenticateController extends Controller
      *
      * @Post("/login")
      * @Versions({"v1"})
-     * @Request(headers={"email": "felixn@live.nl", "password" : "snamreton"})
+     * @Request(headers={"email": "", "password" : ""})
      * @Response(200, headers={"token": "FooBar"})
      */
     public function login(Request $request){
@@ -52,21 +52,12 @@ class AuthenticateController extends Controller
         return response()->json(compact('token'));
     }
 
-    public function validateLoginCredentials($credentials){
-        $validator = Validator::make($credentials, [
-            'email' => 'required',
-            'password' => 'required',
-        ]);
-
-        if($validator->fails()) {
-            throw new ValidationHttpException($validator->errors()->all());
-        }
-    }
-
-
     public function signup(Request $request){
-        $userData = $request->only(Config::get('authconf.signup_fields'));
-        $userData['password'] = bcrypt($userData['password']);
+        $name = \Request::header('name');
+        $email = \Request::header('email');
+        $password = bcrypt(\Request::header('password'));
+
+        $userData = array("name" => $name, "email" => $email, "password" => $password);
         $this->validateSignUpFields($userData);
         $hasToReleaseToken = Config::get('authconf.signup_token_release');
 
@@ -82,6 +73,17 @@ class AuthenticateController extends Controller
         }
 
         return $this->response->created();
+    }
+
+    public function validateLoginCredentials($credentials){
+        $validator = Validator::make($credentials, [
+            'email' => 'required',
+            'password' => 'required',
+        ]);
+
+        if($validator->fails()) {
+            throw new ValidationHttpException($validator->errors()->all());
+        }
     }
 
 
