@@ -1,7 +1,5 @@
 FORMAT: 1A
 
-# nopapidocs1
-
 # AppHttpControllersLessonsController
 Class LessonsController
 
@@ -12,7 +10,7 @@ Get a JSON representation of all the lessons.
     + Headers
 
             Authorization: Bearer TOKEN_HERE
-            paginate: 
+            Paginate: 
 
 ## Get a specific lesson [GET /api/v1/lessons/{id}]
 Get a JSON representation of a specific lesson.
@@ -21,10 +19,31 @@ Get a JSON representation of a specific lesson.
     + Headers
 
             Authorization: Bearer eyxxxxx
-            contentType: application/json
+
+## Update a specific lesson [PUT /api/v1/lessons/{id}]
+Give ID of a lesson as URL parameter and add title and body info so it get's updated
+
++ Request (application/json)
+    + Headers
+
+            Authorization: Bearer eyxxxxx
+            title: 
+            body: 
+
+## Add a specific lesson [POST /api/v1/lessons]
+Add a lesson with title and body to API
+
++ Request (application/json)
+    + Headers
+
+            Authorization: Bearer eyxxxxx
+            title: 
+            body: 
 
 # Authenticate [/auth]
 Class AuthenticateController
+# nopapidocs1
+
 
 ## Login a user [POST /auth/login]
 Returns a JSON web token. Use this token to make calls to the different endpoints
