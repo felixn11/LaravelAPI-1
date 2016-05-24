@@ -39,7 +39,7 @@ class LessonsController extends Controller {
      *
      * @Get("/api/v1/lessons")
      * @Versions({"v1"})
-     * @Request(headers={"Authorization": "Bearer TOKEN_HERE", "paginate": ""}),
+     * @Request(headers={"Authorization": "Bearer TOKEN_HERE", "Paginate": ""}),
      * @Respond(200, body={"id": 10, "title": "bar", "body": "foo"})
      */
     public function index()
