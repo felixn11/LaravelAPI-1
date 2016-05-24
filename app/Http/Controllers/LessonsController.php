@@ -5,7 +5,7 @@ namespace App\Http\Controllers;
 use App\Lesson;
 use Dingo\Api\Routing\Helpers;
 use Illuminate\Routing\Controller;
-use Dingo\Api\Http\Request;
+use Illuminate\Http\Request;
 use League\Fractal\Resource\Collection;
 use NotOnPaper\Transformers\LessonTransformer;
 use League\Fractal\Pagination\IlluminatePaginatorAdapter;
@@ -18,6 +18,8 @@ use League\Fractal\Pagination\IlluminatePaginatorAdapter;
 class LessonsController extends Controller {
 
     use Helpers;
+    protected $request;
+
     /**
      * @var LessonTransformer
      */
@@ -27,9 +29,10 @@ class LessonsController extends Controller {
      * LessonsController constructor.
      * @param LessonTransformer $lessonTransformer
      */
-    function __construct(LessonTransformer $lessonTransformer)
+    function __construct(LessonTransformer $lessonTransformer, Request $request)
     {
         $this->lessonTransformer = $lessonTransformer;
+        $this->request = $request;
     }
 
     /**
@@ -44,19 +47,21 @@ class LessonsController extends Controller {
      */
     public function index()
     {
-        $paginate = \Request::header('paginate');
+        $paginate = $this->request->header('paginate');
         if($paginate)
         {
             $lessons = Lesson::paginate($paginate);
-            return $this->response->withPaginator($lessons, new LessonTransformer());
+            if($lessons){
+                return $this->response->withPaginator($lessons, new LessonTransformer());
+            }
         }
-
-        $lessons = Lesson::all();
-        if (!$lessons)
-        {
-            return $this->response->errorNotFound('No lessons found');
+        else {
+            $lessons = Lesson::all();
+            if ($lessons) {
+                return $this->response->collection($lessons, new LessonTransformer());
+            }
         }
-        return $this->response->collection($lessons, new LessonTransformer());
+        return $this->response->errorNotFound('No lessons found');
     }
 
     /**
@@ -82,8 +87,12 @@ class LessonsController extends Controller {
      * @param $id
      */
     public function edit($id){
-
-
+        $lesson = Lesson::find($id);
+        if (!$lesson)
+        {
+            return $this->response->errorNotFound('Lesson does not exist');
+        }
+        $lesson->fill($this->request->all());
     }
 
     /**
