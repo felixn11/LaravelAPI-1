@@ -1,6 +1,6 @@
 <?php
 
-use App\Lesson;
+use App\Blog;
 use Illuminate\Database\Seeder;
 
 class DatabaseSeeder extends Seeder
@@ -12,8 +12,8 @@ class DatabaseSeeder extends Seeder
      */
     public function run()
     {
-        Lesson::truncate();
+        Blog::truncate();
         \Eloquent::unguard();
-        $this->call(LessonsTableSeeder::class);
+        $this->call(BlogsTableSeeder::class);
     }
 }

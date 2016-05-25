@@ -3,17 +3,17 @@ namespace NotOnPaper\Transformers;
 
 use League\Fractal\TransformerAbstract;
 
-class LessonTransformer extends TransformerAbstract {
+class BlogTransformer extends TransformerAbstract {
 
-    public function transform($lesson)
+    public function transform($blog)
     {
         return [
-            'title' => $lesson['title'],
-            'body'  => $lesson['body'],
+            'title' => $blog['title'],
+            'body'  => $blog['body'],
             'links' => [
                 [
                     'rel' => 'self',
-                    'uri' => '/lessons/' . $lesson['id'],
+                    'uri' => '/blogs/' . $blog['id'],
                 ],
             ]
         ];

@@ -4,10 +4,8 @@ namespace App;
 
 use Illuminate\Database\Eloquent\Model;
 
-class Lesson extends \Eloquent
+class Blog extends \Eloquent
 {
     protected $fillable = ['id', 'title', 'body'];
-
-
 }
 ?>
