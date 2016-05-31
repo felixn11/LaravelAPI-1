@@ -5,14 +5,9 @@ use Illuminate\Database\Migrations\Migration;
 
 class CreateBlogsTable extends Migration
 {
-    /**
-     * Run the migrations.
-     *
-     * @return void
-     */
+
     public function up()
     {
-        Schema::drop('lessons');
         Schema::create('blogs', function (Blueprint $table) {
             $table->increments('id');
             $table->string('title');
@@ -21,19 +16,8 @@ class CreateBlogsTable extends Migration
         });
     }
 
-    /**
-     * Reverse the migrations.
-     *
-     * @return void
-     */
     public function down()
     {
         Schema::drop('blogs');
-        Schema::create('lessons', function (Blueprint $table) {
-            $table->increments('id');
-            $table->string('title');
-            $table->text('body');
-            $table->timestamps();
-        });
     }
 }

@@ -2,10 +2,22 @@
 
 namespace App\Http\Middleware;
 
+use Closure;
 use Illuminate\Foundation\Http\Middleware\VerifyCsrfToken as BaseVerifier;
 
 class VerifyCsrfToken extends BaseVerifier
 {
+
+    public function handle($request, Closure $next)
+    {
+        if ('testing' !== app()->environment())
+        {
+            return parent::handle($request, $next);
+        }
+
+        return $next($request);
+    }
+
     /**
      * The URIs that should be excluded from CSRF verification.
      *

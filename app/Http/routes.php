@@ -13,7 +13,12 @@
 
 $api = app('Dingo\Api\Routing\Router');
 
-$api->version('v1', ['middleware' => 'jwt.auth', 'prefix' => '/api/v1/'], function($api)
+$middleware = [ ];
+if ( !App::runningUnitTests()){
+    $middleware[] = 'jwt.auth';
+}
+
+$api->version('v1', ['middleware' => $middleware, 'prefix' => '/api/v1/'], function($api)
 {
     $api->resource('blogs', 'App\Http\Controllers\BlogController');
 });
@@ -22,3 +27,4 @@ $api->version('v1', ['middleware' => 'cors'], function ($api){
     $api->post('auth/login', 'App\Http\Controllers\AuthenticateController@login');
     $api->post('auth/signup', 'App\Http\Controllers\AuthenticateController@signup');
 });
+

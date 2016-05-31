@@ -4,7 +4,6 @@ namespace App\Http\Controllers;
 
 use App\Blog;
 use Dingo\Api\Routing\Helpers;
-use Illuminate\Routing\Controller;
 use Illuminate\Http\Request;
 use NotOnPaper\Transformers\BlogTransformer;
 
@@ -48,7 +47,7 @@ class BlogController extends Controller {
      */
     public function index()
     {
-        $paginate = $this->request->header('paginate');
+        $paginate = \Request::header('paginate');
         if($paginate)
         {
             $blogs = Blog::paginate($paginate);
@@ -59,7 +58,6 @@ class BlogController extends Controller {
         else {
             $blogs = Blog::all();
             if ($blogs) {
-                return $blogs;
                 return $this->response->collection($blogs, new BlogTransformer());
             }
         }
@@ -98,21 +96,23 @@ class BlogController extends Controller {
     public function update($id){
         $blog = Blog::find($id);
         if (!$blog)
-        {
             return $this->response->errorNotFound('blog_does_not_exist');
-        }
 
-        $title = $this->request->header('title');
-        $body = $this->request->header('body');
+        $title = \Request::header('title');
+        $body = \Request::header('body');
 
         if($title)
             $blog['title'] = $title;
         if($body)
             $blog['body'] = $body;
 
-        if($blog->save()){
+        if($blog->save()) {
             $message = $blog['title'] . " updated";
-            return $this->response->accepted($message);
+            return $this->response->created($message);
+        }
+        else {
+            return $this->response->error('blog_does_not_exist', 500);
+
         }
     }
 
@@ -128,12 +128,15 @@ class BlogController extends Controller {
      */
     public function store(){
         $blog = new Blog;
-        $blog->title = $this->request->header('title');
-        $blog->body = $this->request->header('body');
-        if($blog->save())
+        $blog->title = \Request::header('title');
+        $blog->body = \Request::header('body');
+        if($blog->title && $blog->body != null) {
+            $blog->save();
             return $this->response->accepted($blog . " created");
-        else
+        }
+        else {
             return $this->response->error('could_not_create_blog', 500);
+        }
     }
 
     /**
