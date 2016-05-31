@@ -9,8 +9,9 @@ class AuthorizationTest extends TestCase
     public function testSignUp(){
         $this->faker = Faker\Factory::create();
         $headers = ["name" => $this->faker->name, "email" => $this->faker->email, "password" => $this->faker->password];
-        $this->post("http://backend/auth/login", [],
-            $headers);
+        $this->post("http://backend/auth/signup", [],
+            $headers)
+        ->seeStatusCode(200);
     }
 
     public function testAuthorize(){

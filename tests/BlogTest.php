@@ -67,7 +67,7 @@ class BlogTest extends TestCase
     /**
      * @return void
      */
-    public function testPostBlogWrongParams()
+    public function testPostBlogWrongHeaders()
     {
         $this->faker = Faker\Factory::create();
         $headers = ["titl" => $this->faker->text, "body" => $this->faker->text];
